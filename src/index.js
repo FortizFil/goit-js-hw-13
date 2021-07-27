@@ -78,7 +78,7 @@ async function onSearchFormUrlSubmit(e) {
      loadMoreBtn.classList.add('is-hidden');
         return
    }
-  
+  galleryUrl.innerHTML = " ";
   searchPhoto.resetPage();
   searchPhoto.getImg();
   loadMoreBtn.classList.remove('is-hidden');
