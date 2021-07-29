@@ -26,22 +26,28 @@ async getImg() {
     
     if (photos.length === 0) {
       loadMoreBtn.classList.add('is-hidden');
-      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
-      
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')    
   }
-
-
+     
+     
+     
     
-
-    if(photos.length < 40){
-      Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`)
+        if (response.ok) {
+      throw new Error(response.status);
+        }
+    
+   if (photos.length === 40) {
+       this.incrementPage();
+        loadMoreBtn.classList.remove('is-hidden');
+       renderImgCard(photos)
     }
-    this.incrementPage();
-   
-    renderImgCard(photos)
+
+  
+  
       
   } catch (error) {
-
+loadMoreBtn.classList.add('is-hidden');
+    Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`) 
   }
 }
   incrementPage() {
@@ -75,18 +81,20 @@ async function onSearchFormUrlSubmit(e) {
 
    if (searchPhoto.query === "") {
      galleryUrl.innerHTML = " ";
-     loadMoreBtn.classList.add('is-hidden');
-        return
+     
+     return
    }
   galleryUrl.innerHTML = " ";
   searchPhoto.resetPage();
   searchPhoto.getImg();
-  loadMoreBtn.classList.remove('is-hidden');
+  loadMoreBtn.classList.add('is-hidden');
     
 }
 
 
 async function onLoadMoreBtnClick() {
+
+  
  searchPhoto.getImg() 
 }
 
