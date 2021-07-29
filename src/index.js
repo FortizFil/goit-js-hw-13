@@ -36,7 +36,7 @@ async getImg() {
       throw new Error(response.status);
         }
     
-   if (photos.length === 40) {
+   if (photos.length >= 1) {
        this.incrementPage();
         loadMoreBtn.classList.remove('is-hidden');
        renderImgCard(photos)
@@ -81,7 +81,7 @@ async function onSearchFormUrlSubmit(e) {
 
    if (searchPhoto.query === "") {
      galleryUrl.innerHTML = " ";
-     
+     loadMoreBtn.classList.add('is-hidden');
      return
    }
   galleryUrl.innerHTML = " ";
