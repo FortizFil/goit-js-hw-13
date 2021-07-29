@@ -23,20 +23,28 @@ async getImg() {
     const key = 'key=22670946-2b796d5e22242051989a80e4c';
     const response = await axios.get(`${url}/?${key}&q=${this.name}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`);
     const photos = await response.data.hits;
-    
+    const totalHits = await response.data.totalHits;
+
+   const  loadPhoto = totalHits - photos.length;
+    console.log(photos.length)
+    console.log(loadPhoto)
     if (photos.length === 0) {
       loadMoreBtn.classList.add('is-hidden');
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')    
   }
      
-     
-     
-    
-        if (response.ok) {
+           if (response.ok) {
       throw new Error(response.status);
         }
+     
     
-   if (photos.length >= 1) {
+    if (loadPhoto === 0) {
+          renderImgCard(photos)
+      loadMoreBtn.classList.add('is-hidden');
+      Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`) 
+        }
+    
+   else  {
        this.incrementPage();
         loadMoreBtn.classList.remove('is-hidden');
        renderImgCard(photos)
@@ -47,7 +55,7 @@ async getImg() {
       
   } catch (error) {
 loadMoreBtn.classList.add('is-hidden');
-    Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`) 
+    Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`) 
   }
 }
   incrementPage() {
